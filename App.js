@@ -1,20 +1,23 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View, ScrollView } from 'react-native';
+import { useEffect, useState } from 'react';
+import { himnos } from './lib/himnos';
+import "./global.css";
 
 export default function App() {
+  const [himno, setHimno] = useState({});
+  useEffect(() => {
+    setHimno(himnos);
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View className="flex-1 items-center justify-center">
+      <StatusBar />
+      <ScrollView>
+        {himnos.map((himno) => (
+          <Text className="text-2xl font-bold" key={himno.himno}>{himno.titulo}</Text>
+        ))}
+      </ScrollView>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
