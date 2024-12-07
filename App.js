@@ -1,18 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { Text, View, ScrollView } from 'react-native';
-import { useEffect, useState } from 'react';
-import { himnos } from './lib/himnos';
-import { formatTitle } from './utils/utils';
-import  HimnoPreview  from './components/HimnoPreview.jsx';
+import { View } from 'react-native';
 import { useFonts } from 'expo-font'
+import { SafeAreaView } from 'react-native-safe-area-context';
 import "./global.css";
 
+import { Main } from './components/Main';
+
 export default function App() {
-  const [himno, setHimno] = useState([])
- 
-  useEffect(() => {
-    setHimno(himnos);
-  }, []);
 
   const [fontsLoaded] = useFonts({
     'MarkaziText-Regular': require('./assets/fonts/MarkaziText-Regular.ttf'),
@@ -26,18 +20,11 @@ export default function App() {
   }
 
   return (
-    <View className="flex-1 items-center justify-center">
-      <StatusBar />
-      <ScrollView>
-      {himno.map((himno) => (
-            <View className="mt-3" key={himno.himno}>
-              <HimnoPreview
-                himno={himno.himno}
-                titulo={formatTitle(himno.titulo)}
-              />
-            </View>
-          ))}
-      </ScrollView>
-    </View>
+    <SafeAreaView className="flex-1 bg-gray-50">
+      <View className="flex-1 items-center justify-center">
+        <StatusBar style="dark" />
+        <Main />
+      </View>
+    </SafeAreaView>
   );
 }
