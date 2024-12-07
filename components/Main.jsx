@@ -1,4 +1,4 @@
-import { View, ScrollView, ActivityIndicator } from 'react-native';
+import { FlatList, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { formatTitle } from '../utils/utils';
 import HimnoPreview from './HimnoPreview.jsx';
@@ -16,17 +16,12 @@ export function Main() {
             {himno.length === 0 ? (
                 <ActivityIndicator />
             ) : (
-                <ScrollView>
-                    {himno.map((himno) => (
-                        <View className="mt-3" key={himno.himno}>
-                            <HimnoPreview
-                                himno={himno.himno}
-                                titulo={formatTitle(himno.titulo)}
-                            />
-                        </View>
-                    ))}
-                </ScrollView>
+                <FlatList
+                    data={himno}
+                    keyExtractor={himno.himno}
+                    renderItem={({ item }) => <HimnoPreview himno={item.himno} titulo={formatTitle(item.titulo)} />}
+                />
             )}
         </>
     );
-}
+}                   
