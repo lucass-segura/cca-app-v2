@@ -1,7 +1,8 @@
 import { FlatList, View, ScrollView, ActivityIndicator } from 'react-native';
 import { useEffect, useState } from 'react';
 import { formatTitle } from '../utils/utils';
-import HimnoPreview from './HimnoPreview.jsx';
+
+import { AnimatedHimnoPreview } from './HimnoPreview.jsx';
 import { himnos } from '../lib/himnos';
 
 export function Main() {
@@ -17,9 +18,9 @@ export function Main() {
                 <ActivityIndicator />
             ) : (
                 <FlatList
-                    data={himno}
+                    data={himnos}
                     keyExtractor={himno.himno}
-                    renderItem={({ item }) => <HimnoPreview himno={item.himno} titulo={formatTitle(item.titulo)} />}
+                    renderItem={({ item, index }) => <AnimatedHimnoPreview himno={item.himno} titulo={formatTitle(item.titulo)} />}
                 />
             )}
         </>

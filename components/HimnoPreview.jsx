@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { View, Text, Pressable, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 
-export default function HimnoPreview ({ himno, titulo }) {
+export function HimnoPreview ({ himno, titulo }) {
   const [routing, setRouting] = useState(false);
   const router = useRouter();
 
@@ -27,3 +27,22 @@ export default function HimnoPreview ({ himno, titulo }) {
     </Pressable>
   );
 };
+
+export function AnimatedHimnoPreview({himno, index, titulo}) {
+  const opacity = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 400,
+      delay: index * 50,
+      useNativeDriver: true,
+    }).start();
+  }, [opacity, index]);
+
+  return (
+    <Animated.View style={{opacity}}>
+      <HimnoPreview himno={himno} titulo={titulo} />
+    </Animated.View>
+  )
+}
