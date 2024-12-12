@@ -1,12 +1,13 @@
 {
   "expo": {
-    "name": "cca-app-2v",
-    "slug": "cca-app-2v",
+    "name": "cca-app",
+    "slug": "cca-app",
     "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "scheme": "cca",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
