@@ -4,7 +4,6 @@ import "../global.css";
 import { useFonts } from 'expo-font'
 
 export default function Layout() {
-
     const [fontsLoaded] = useFonts({
         'MarkaziText-Regular': require('../assets/fonts/MarkaziText-Regular.ttf'),
         'MarkaziText-Bold': require('../assets/fonts/MarkaziText-Bold.ttf'),
@@ -17,7 +16,7 @@ export default function Layout() {
     }
 
     return (
-        <View>
+        <View className="flex-1">
             <Slot />
         </View>
     );

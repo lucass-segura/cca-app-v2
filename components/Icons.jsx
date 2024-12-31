@@ -1,5 +1,5 @@
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export const BackIcon = () => {
-    <MaterialIcons name="keyboard-backspace" size={24} color="black" />
+    <AntDesign name="arrowleft" size={24} color="white" />
 }

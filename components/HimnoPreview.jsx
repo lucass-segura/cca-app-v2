@@ -6,7 +6,7 @@ import { formatTitle } from '../utils/utils';
 export function HimnoPreview({ himno }) {
 
   return (
-    <Link href={`/${himno.himno}`} asChild>
+    <Link href={`/${encodeURIComponent(himno.himno)}`} asChild>
       <Pressable>
         <View className="mt-3 ml-5 w-[90%] bg-white backdrop-blur-md shadow-pronounced rounded-2xl flex-row">
           <View className="h-[70px] items-center justify-center w-[70px] rounded-lg m-4 bg-blue-900">
