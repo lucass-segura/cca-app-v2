@@ -9,7 +9,7 @@ export function HimnoPreview({ himno }) {
     <Link href={`/${encodeURIComponent(himno.himno)}`} asChild>
       <Pressable>
         <View className="mt-3 ml-5 w-[90%] bg-white backdrop-blur-md shadow-pronounced rounded-2xl flex-row">
-          <View className="h-[70px] items-center justify-center w-[70px] rounded-lg m-4 bg-blue-900">
+          <View className="h-[70px] items-center justify-center w-[70px] rounded-lg m-4 bg-primary">
             <Text className="text-5xl text-white font-himnMedium">{himno.himno}</Text>
           </View>
           <View className="flex-1 m-auto">

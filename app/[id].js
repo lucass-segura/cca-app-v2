@@ -69,14 +69,14 @@ const HimnoDetailScreen = () => {
         <View className="flex-1 bg-white mt-1">
             {/* Controles para el tamaño de la letra */}
             <View className="flex-row justify-between items-end m-4">
-                <Link href="/" className="bg-blue-900 px-4 py-2 rounded-md mx-2">
+                <Link href="/" className="bg-primary px-4 py-2 rounded-md mx-2">
                     <Text className="text-white font-himnBold"><AntDesign name="arrowleft" size={18} color="white" /></Text>
                 </Link>
                 <View className="flex-row">
-                    <TouchableOpacity onPress={reducirLetra} className="bg-blue-900 px-4 py-2 rounded-md mx-2">
+                    <TouchableOpacity onPress={reducirLetra} className="bg-primary px-4 py-2 rounded-md mx-2">
                         <Text className="text-white font-himnBold">A-</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={aumentarLetra} className="bg-blue-900 px-4 py-2 rounded-md mx-2">
+                    <TouchableOpacity onPress={aumentarLetra} className="bg-primary px-4 py-2 rounded-md mx-2">
                         <Text className="text-white font-himnBold">A+</Text>
                     </TouchableOpacity>
                 </View>
