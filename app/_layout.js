@@ -1,7 +1,8 @@
-import { Slot } from 'expo-router';
+import { Stack } from 'expo-router';
 import { View } from 'react-native';
 import "../global.css";
-import { useFonts } from 'expo-font'
+import { useFonts } from 'expo-font';
+import { StatusBar } from 'expo-status-bar';
 
 export default function Layout() {
     const [fontsLoaded] = useFonts({
@@ -17,7 +18,20 @@ export default function Layout() {
 
     return (
         <View className="flex-1">
-            <Slot />
+            {/* Configurar el StatusBar globalmente en la app */}
+            <StatusBar style="dark" />
+            
+            <Stack
+                screenOptions={{
+                    headerStyle: {
+                        backgroundColor: '#f3f4f6',
+                    },
+                    headerTitleStyle: {
+                        fontFamily: 'MarkaziText-SemiBold',
+                        fontSize: 35,
+                    },
+                    headerTitle: "Himnario de Música",
+                }} />
         </View>
     );
 }

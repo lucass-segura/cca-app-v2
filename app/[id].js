@@ -22,7 +22,7 @@ const HimnoDetailScreen = () => {
             navigation.setOptions({
                 headerTitle: () => (
                     <Text className="text-3xl mt-1 font-himnBold">
-                        Himno {himno.himno}
+                        {himno.himno}. {formatTitle(himno.titulo)}
                     </Text>
                 ),
             });
@@ -68,11 +68,8 @@ const HimnoDetailScreen = () => {
     return (
         <View className="flex-1 bg-white mt-1">
             {/* Controles para el tamaño de la letra */}
-            <View className="flex-row justify-between items-end m-4">
-                <Link href="/" className="bg-primary px-4 py-2 rounded-md mx-2">
-                    <Text className="text-white font-himnBold"><AntDesign name="arrowleft" size={18} color="white" /></Text>
-                </Link>
-                <View className="flex-row">
+            <View className="flex-row justify-end items-end mt-4 ml-4">
+                <View className="flex-row pb-1">
                     <TouchableOpacity onPress={reducirLetra} className="bg-primary px-4 py-2 rounded-md mx-2">
                         <Text className="text-white font-himnBold">A-</Text>
                     </TouchableOpacity>
@@ -84,12 +81,6 @@ const HimnoDetailScreen = () => {
 
             {/* Contenido del himno */}
             <ScrollView contentContainerStyle={{ flexGrow: 1, padding: 16 }}>
-                <Text
-                    style={{ fontSize: fontSize + 4, lineHeight: (fontSize + 4) * 1.5 }}
-                    className="text-4xl font-himnBold"
-                >
-                    {himno.himno}. {formatTitle(himno.titulo)}
-                </Text>
                 {versos.map(([key, verso], index) => (
                     <View key={key} className="flex-row items-start mt-2">
                         <Text
