@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "cca-app",
-    "slug": "cca-app",
-    "version": "0.0.1",
+    "name": "himnos",
+    "slug": "himnos",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.glowsito.ccaapp2v"
+      "package": "com.glowsito.himnos"
     },
     "web": {
       "favicon": "./assets/favicon.png"
