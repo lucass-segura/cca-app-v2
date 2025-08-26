@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "himnos",
-    "slug": "himnos",
-    "version": "0.1.0",
+    "name": "Himnos",
+    "slug": "cca-app-2v",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
-    "scheme": "cca",
+    "scheme": "Himnos",
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",

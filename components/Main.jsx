@@ -1,79 +1,71 @@
-import { FlatList, View, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { SectionList, View, Text, TextInput, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { useEffect, useState } from 'react';
 import { AnimatedHimnoPreview } from './HimnoPreview.jsx';
 import { himnos } from '../lib/himnos';
+import { coritos } from '../lib/coritos';
 
-// Función para normalizar texto, ignorando acentos y comas
+const sections = [
+    { title: 'Coritos', data: coritos.map(c => ({ ...c, type: 'corito' })) },
+    { title: 'Himnos', data: himnos.map(h => ({ ...h, type: 'himno' })) }
+];
+
 const normalizeText = (text) => {
     return text
-        .normalize('NFD') // Descompone los caracteres acentuados
-        .replace(/[\u0300-\u036f]/g, '') // Elimina los acentos
-        .replace(/,/g, '') // Elimina las comas
-        .toLowerCase(); // Convierte a minúsculas
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/,/g, '')
+        .toLowerCase();
 };
 
 export function Main() {
-    const [himno, setHimno] = useState(himnos);
+    const [items, setItems] = useState(sections);
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(false);
     const [loadingError, setLoadingError] = useState(false);
-    const [customMessage, setCustomMessage] = useState(''); // Para mensajes personalizados
-
-    useEffect(() => {
-        setHimno(himnos);
-    }, []);
+    const [customMessage, setCustomMessage] = useState('');
 
     const handleSearch = (query) => {
         setSearchQuery(query);
-
-        // Iniciar la carga y manejar el estado de error
         setLoading(true);
         setLoadingError(false);
-        setCustomMessage(''); // Resetear el mensaje personalizado
+        setCustomMessage('');
 
         if (!query) {
-            setHimno(himnos);
+            setItems(sections);
             setLoading(false);
-        } else {
-            const lowerCaseQuery = normalizeText(query); // Normalizamos la búsqueda
+            return;
+        }
 
-            // Lógica para mensajes personalizados
-            if (lowerCaseQuery === 'lucas') {
-                setCustomMessage('¡Qué tipo fachero!');
-                setLoading(false);
-                setHimno([]); // Limpiar los himnos
-            } else if (lowerCaseQuery === 'priscila') {
-                setCustomMessage('¡Qué tipa fachera!');
-                setLoading(false);
-                setHimno([]); // Limpiar los himnos
-            } else {
-                // Si no es "Lucas" ni "Priscila", realizar la búsqueda de himnos
-                const filteredHimnos = himnos.filter((himno) => {
+        const lowerCaseQuery = normalizeText(query);
+        const filteredSections = sections.map(section => {
+            const filteredData = section.data.filter(item => {
+                if (item.type === 'corito') {
                     return (
-                        normalizeText(himno.himno.toString()).includes(lowerCaseQuery) ||
-                        normalizeText(himno.titulo).includes(lowerCaseQuery) ||
-                        Object.values(himno.letra).some((letra) =>
+                        normalizeText(item.corito.toString()).includes(lowerCaseQuery) ||
+                        normalizeText(item.titulo).includes(lowerCaseQuery) ||
+                        normalizeText(item.coro).includes(lowerCaseQuery)
+                    );
+                } else {
+                    return (
+                        normalizeText(item.himno.toString()).includes(lowerCaseQuery) ||
+                        normalizeText(item.titulo).includes(lowerCaseQuery) ||
+                        Object.values(item.letra).some(letra =>
                             normalizeText(letra).includes(lowerCaseQuery)
                         )
                     );
-                });
-
-                // Si se busca "Luca" o "Prisci", mostrar error
-                if (lowerCaseQuery === 'luca' || lowerCaseQuery === 'prisci') {
-                    setLoadingError(true);
-                    setLoading(false);
-                } else if (filteredHimnos.length === 0) {
-                    setLoadingError(true);
-                    setLoading(false);
-                } else {
-                    setHimno(filteredHimnos);
-                    setLoading(false);
                 }
-            }
-        }
-    };
+            });
+            return { ...section, data: filteredData };
+        }).filter(section => section.data.length > 0);
 
-    // Manejo de temporizador de carga (3 segundos)
+        if (filteredSections.length === 0) {
+            setLoadingError(true);
+        } else {
+            setItems(filteredSections);
+        }
+        setLoading(false);
+    };
+    
     useEffect(() => {
         const timer = setTimeout(() => {
             if (loading) {
@@ -82,30 +74,27 @@ export function Main() {
             }
         }, 3000);
 
-        return () => clearTimeout(timer); // Limpiar el temporizador al desmontar el componente
+        return () => clearTimeout(timer);
     }, [loading]);
 
-    // Función para borrar el texto en el campo de búsqueda
     const clearSearch = () => {
         setSearchQuery('');
-        setHimno(himnos);
+        setItems(sections);
         setLoading(false);
         setLoadingError(false);
-        setCustomMessage(''); // Limpiar mensaje personalizado
+        setCustomMessage('');
     };
 
     return (
         <View className="flex-1 bg-gray-100 p-2">
       
-            {/* Barra de búsqueda */}
             <View className="relative">
                 <TextInput
                     className="mb-5 mt-5 p-3 mx-5 border-2 border-primary rounded-lg bg-white shadow-lg text-lg text-primary"
-                    placeholder="Buscar himno..."
+                    placeholder="Buscar himno o corito..."
                     value={searchQuery}
                     onChangeText={handleSearch}
                 />
-                {/* Icono de borrar (X) */}
                 {searchQuery.length > 0 && (
                     <TouchableOpacity
                         onPress={clearSearch}
@@ -116,38 +105,37 @@ export function Main() {
                 )}
             </View>
 
-            {/* Mostrar mensaje personalizado si se busca "Lucas" o "Priscila" */}
             {customMessage ? (
                 <View className="flex-1 items-center p-4">
                     <View className="flex-row justify-center bg-blue-100 p-4 rounded-xl shadow-lg">
-                        <Text className="text-2xl font-bold text-blue-600 mr-2">😎</Text>
-                        <Text className="text-xl text-blue-600">{customMessage}</Text>
+                        <Text className="text-2xl font-bold text-blue-600 mr-2">💛</Text>
                     </View>
                 </View>
             ) : (
                 <>
-                    {/* Mostrar mensaje de error si no se encuentra himno */}
                     {loadingError ? (
                         <View className="flex-1 items-center p-4">
                             <View className="flex-row justify-center bg-red-100 p-4 rounded-xl shadow-lg">
                                 <Text className="text-2xl font-bold text-red-600 mr-2">😞</Text>
-                                <Text className="text-xl text-red-600">Himno no encontrado</Text>
+                                <Text className="text-xl text-red-600">No se encontraron resultados</Text>
                             </View>
                         </View>
                     ) : (
                         <>
-                            {/* Mostrar los himnos o indicador de carga */}
                             {loading ? (
                                 <View className="flex-1 justify-center items-center">
                                     <ActivityIndicator size="large" color="#F59E0B" />
                                     <Text className="text-xl text-gray-500 mt-4">Cargando...</Text>
                                 </View>
                             ) : (
-                                <FlatList
-                                    data={himno}
-                                    keyExtractor={(item) => item.himno.toString()}
+                                <SectionList
+                                    sections={items}
+                                    keyExtractor={(item) => (item.type === 'corito' ? `c_${item.corito}` : `h_${item.himno}`)}
                                     renderItem={({ item, index }) => (
                                         <AnimatedHimnoPreview himno={item} index={index} />
+                                    )}
+                                    renderSectionHeader={({ section: { title } }) => (
+                                        <Text className="text-4xl font-himnBold text-primary mt-4 ml-5">{title}</Text>
                                     )}
                                     contentContainerStyle={{ paddingBottom: 20 }}
                                 />

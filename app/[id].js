@@ -3,7 +3,6 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { Link, useLocalSearchParams, useNavigation } from 'expo-router';
 import { himnos } from '../lib/himnos';
 import { formatTitle } from '../utils/utils';
-import AntDesign from '@expo/vector-icons/AntDesign';
 
 const HimnoDetailScreen = () => {
     const { id } = useLocalSearchParams();
